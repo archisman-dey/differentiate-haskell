@@ -19,6 +19,7 @@ The parser is written using Parsec - [Parsec](https://wiki.haskell.org/Parsec)
 
 * Use `~` instead of `-` for unary minus.
 * Integers are not supported yet, use float instaed : 2.0 instead of 2.
+* Brackets have to be used in some places to get the expression parsed correctly, specifically, while writing unary expressions.
 
 ## Examples
 
@@ -28,4 +29,10 @@ Expression in terms of x? (Note: Use ~ for unary minus)
 sin(cos(x))
 Parsed as: (sin(cos('x')))
 Result: ((cos(cos('x'))) * (-(sin('x'))))
+
+$ ./differentiate
+Expression in terms of x? (Note: Use ~ for unary minus)
+sin(x)*(cos(x)-(tan(x)))
+Parsed as: ((sin('x')) * ((cos('x')) - (tan('x'))))
+Result: (((sin('x')) * ((-(sin('x'))) - ((sec('x')) ^ (2.0)))) + ((cos('x')) * ((cos('x')) - (tan('x')))))
 ```
