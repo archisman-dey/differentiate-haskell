@@ -7,7 +7,7 @@ import Text.Parsec.Language ( emptyDef )
 
 
 -- define the grammar
-data Expr = Var Char
+data Expr =   Var Char
             | Const Double
             | BinExp BinaryOp Expr Expr
             | UnExp UnaryOp Expr
@@ -139,19 +139,19 @@ parens = T.parens lexer
 -- build the parser
 exprParser = buildExpressionParser opTable expr
 
-opTable = [ [Infix  (op "^"     >> return (BinExp Pow)) AssocRight  ],
-            [Infix  (op "/"     >> return (BinExp Div)) AssocLeft   ],
-            [Infix  (op "*"     >> return (BinExp Mul)) AssocLeft   ],
-            [Infix  (op "-"     >> return (BinExp Sub)) AssocLeft   ],
-            [Infix  (op "+"     >> return (BinExp Add)) AssocLeft   ],
-            [Prefix (op "~"     >> return (UnExp Minus))            ],
+opTable = [ [Prefix (op "~"     >> return (UnExp Minus))            ],
             [Prefix (op "sin"   >> return (UnExp Sin))              ],
             [Prefix (op "cos"   >> return (UnExp Cos))              ],
             [Prefix (op "tan"   >> return (UnExp Tan))              ],
             [Prefix (op "sec"   >> return (UnExp Sec))              ],
             [Prefix (op "log"   >> return (UnExp Log))              ],
             [Prefix (op "exp"   >> return (UnExp Exp))              ],
-            [Prefix (op "sqrt"  >> return (UnExp Sqrt))             ]]
+            [Prefix (op "sqrt"  >> return (UnExp Sqrt))             ],
+            [Infix  (op "^"     >> return (BinExp Pow)) AssocRight  ],
+            [Infix  (op "/"     >> return (BinExp Div)) AssocLeft   ],
+            [Infix  (op "*"     >> return (BinExp Mul)) AssocLeft   ],
+            [Infix  (op "-"     >> return (BinExp Sub)) AssocLeft   ],
+            [Infix  (op "+"     >> return (BinExp Add)) AssocLeft   ]]
 
 expr =  fmap Var (char 'x')
     <|> fmap Const float
